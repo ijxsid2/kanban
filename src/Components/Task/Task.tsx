@@ -4,10 +4,11 @@ import {TaskType} from "../../ModelTypes/ModelTypes";
 import MutationsContext from "../../Containers/App/MutationsContext"
 
 type Props = {
-    task: TaskType
+    task: TaskType,
+    currentColumnIndex: number
 }
 
-let Task = ({ task }: Props) => {
+let Task = ({ task, currentColumnIndex }: Props) => {
     const [isEditable, setIsEditable] = React.useState<boolean>(false)
     const mutations = React.useContext(MutationsContext);
 
@@ -29,6 +30,14 @@ let Task = ({ task }: Props) => {
         }
 
     }
+
+    const onMoveTaskLeft = () => {
+        mutations.moveTaskToColumn(task.id, currentColumnIndex, "LEFT")
+    }
+
+    const onMoveTaskRight = () => {
+        mutations.moveTaskToColumn(task.id, currentColumnIndex, "RIGHT")
+    }
     return (
         <li className="Column__item card"
             onDoubleClick={onDoubleClick}
@@ -42,7 +51,7 @@ let Task = ({ task }: Props) => {
             }
             <div className="card-footer Task__actions">
                 <div className="left">
-                    <button className="btn">
+                    <button className="btn" onClick={onMoveTaskLeft}>
                         <i className="icon icon-arrow-left"/>
                     </button>
                     <button className="btn btn-error Task__delete">
@@ -50,7 +59,7 @@ let Task = ({ task }: Props) => {
                     </button>
                 </div>
  
-                <div className="btn right">
+                <div className="btn right" onClick={onMoveTaskRight}>
                     <i className="icon icon-arrow-right"/>
                 </div>
             </div>

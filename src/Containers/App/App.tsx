@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {BoardType, AppState, TaskType} from "../../ModelTypes/ModelTypes"
+import {BoardType, AppState, TaskType, ColumnType} from "../../ModelTypes/ModelTypes"
 import Board from '../../Components/Board/Board';
 import MutationsContext from "./MutationsContext"
 
@@ -97,12 +97,54 @@ let Container = () =>  {
     }, [boardState])
 
 
+    const moveTaskToColumn = (taskId: string, currentColumnIndex: number, move: "LEFT" | "RIGHT") => {
+        const numCols = boardState.columns.length
+
+        // nothing to do if the task is already at end columns of the board
+        if (move === "LEFT" && currentColumnIndex === 0) return
+        if (move === "RIGHT" && currentColumnIndex === numCols - 1) return
+
+        const columnA: ColumnType = {
+            ...boardState.columns[currentColumnIndex],
+            tasks: boardState.columns[currentColumnIndex].tasks.filter(task => task !== taskId)
+        }
+        const columnB: ColumnType = {
+            ...boardState.columns[currentColumnIndex + (move === "LEFT" ? -1: 1)],
+            tasks: [taskId].concat(boardState.columns[currentColumnIndex + (move === "LEFT" ? -1: 1)].tasks)
+        }
+
+        const lowerIndex = move === "LEFT" ? currentColumnIndex - 1: currentColumnIndex;
+        const newCols = move === "LEFT" ? 
+            [
+                ...boardState.columns.slice(0, lowerIndex),
+                columnB,
+                columnA,
+                ...boardState.columns.slice(lowerIndex+2),
+            ]
+         :  [
+            ...boardState.columns.slice(0, lowerIndex),
+            columnA,
+            columnB,
+            ...boardState.columns.slice(lowerIndex+2),
+        ]
+
+       const newState = {
+            ...boardState,
+            columns: newCols
+        };
+        setBoardState(newState);
+        
+        
+
+    }
+
 
     return (
         <MutationsContext.Provider value={{
             addTask: addTask,
             editTask: editTask,
-            editColumnName: editColumnName
+            editColumnName: editColumnName,
+            moveTaskToColumn: moveTaskToColumn
         }}>
             <Board currentBoard={boardState}/>
         </MutationsContext.Provider>

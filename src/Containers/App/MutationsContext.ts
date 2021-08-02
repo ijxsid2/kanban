@@ -4,7 +4,8 @@ import {Mutations} from '../../ModelTypes/MutationTypes'
 const mutationsAvailable: Mutations = {
     addTask: (_title, _columnIndex) => { return },
     editTask: (_taskId, _title) => { return },   
-    editColumnName: (_columnIndex, _newName) => { return }
+    editColumnName: (_columnIndex, _newName) => { return },
+    moveTaskToColumn: (_taskId, _currentColumnIndex, _move) => {return}
 }
 
 const MutationContext = React.createContext(mutationsAvailable)
