@@ -1,0 +1,47 @@
+.Board {
+  padding: 2rem;
+  width: 100%;
+  background-color: #f2f2f2;
+  height: 100vh;
+}
+
+.Board__heading {
+  padding: 0 0.5rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.Board__columns-section {
+  display: flex;
+  overflow-x: auto;
+}
+
+.Board__column {
+  width: 25vw;
+  flex: 0 0 auto;
+  padding: 0 0.75rem;
+}
+.Board__column-name {
+  font-size: 1rem;
+}
+
+.Board__columns-section::-webkit-scrollbar {
+  display: none;
+}
+
+.Board__column-contents {
+  margin: 0;
+}
+.Board__column-item {
+  background-color: #fff;
+  list-style: none;
+  min-height: 100px;
+  padding: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+}
+.Board__add-task button {
+  width: 100%;
+  border-style: dashed;
+  font-size: 1rem;
+  height: 2rem;
+}
