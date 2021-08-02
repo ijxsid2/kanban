@@ -5,4 +5,5 @@ export type Mutations = {
     moveTaskToColumn: (taskId: string, currentColumnIndex: number, move: "LEFT" | "RIGHT") => void;
     addColumn: () => void;
     deleteColumn: (columnIndex: number) => void;
+    deleteTask: (taskId: string) => void
 }

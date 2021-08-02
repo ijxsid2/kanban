@@ -181,6 +181,17 @@ let Container = () =>  {
         changeBoardState(newState); 
     };
 
+    const deleteTask = (taskId: string) => {
+        const newTasks = {
+            ...boardState.tasks
+        }
+        Reflect.deleteProperty(newTasks, taskId)
+        const newState = {
+            ...boardState,
+            tasks: newTasks
+        };
+        changeBoardState(newState); 
+    }
 
     return (
         <MutationsContext.Provider value={{
@@ -190,6 +201,7 @@ let Container = () =>  {
             moveTaskToColumn,
             addColumn,
             deleteColumn,
+            deleteTask
         }}>
             <Board currentBoard={boardState}/>
         </MutationsContext.Provider>

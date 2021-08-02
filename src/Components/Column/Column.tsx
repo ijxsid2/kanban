@@ -67,7 +67,7 @@ let Column = ({ column, columnTasks, columnIndex }: Props) => {
                 {
                     columnTasks.map(
                         (task: TaskType) => (
-                            <Task task={task} key={task.id} currentColumnIndex={columnIndex}/>
+                            task && <Task task={task} key={task.id} currentColumnIndex={columnIndex}/>
                         )
                     )
                 }

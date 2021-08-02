@@ -7,7 +7,9 @@ const mutationsAvailable: Mutations = {
     editColumnName: (_columnIndex, _newName) => { return },
     moveTaskToColumn: (_taskId, _currentColumnIndex, _move) => {return},
     addColumn: () => { return },
-    deleteColumn: (_columnIndex) => { return }
+    deleteColumn: (_columnIndex) => { return },
+    deleteTask: (_taskId) => {return } 
+
 }
 
 const MutationContext = React.createContext(mutationsAvailable)

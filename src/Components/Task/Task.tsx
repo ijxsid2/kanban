@@ -38,6 +38,10 @@ let Task = ({ task, currentColumnIndex }: Props) => {
     const onMoveTaskRight = () => {
         mutations.moveTaskToColumn(task.id, currentColumnIndex, "RIGHT")
     }
+    
+    const onDeleteTask = () => {
+        mutations.deleteTask(task.id);
+    }
     return (
         <li className="Column__item card"
             onDoubleClick={onDoubleClick}
@@ -54,7 +58,7 @@ let Task = ({ task, currentColumnIndex }: Props) => {
                     <button className="btn" onClick={onMoveTaskLeft}>
                         <i className="icon icon-arrow-left"/>
                     </button>
-                    <button className="btn btn-error Task__delete">
+                    <button className="btn btn-error Task__delete" onClick={onDeleteTask}>
                         <i className="icon icon-delete"/>
                     </button>
                 </div>
