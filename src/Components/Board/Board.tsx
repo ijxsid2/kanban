@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './Board.css'
-import { Board as BoardType, Column as ColumnType} from "../ModelTypes/ModelTypes";
-import Column from './Column/Column';
+import { BoardType, ColumnType} from "../../ModelTypes/ModelTypes";
+import Column from '../Column/Column';
 
 type Props = {
     currentBoard: BoardType
@@ -14,6 +14,7 @@ let Board = ({ currentBoard }: Props) => (
             {
                 currentBoard.columns.map((column: ColumnType) => (
                     <Column
+                        key={column.name}
                         column={column}
                         columnTasks={column.tasks.map((taskId: string) => currentBoard.tasks[taskId])}/>
                 ))

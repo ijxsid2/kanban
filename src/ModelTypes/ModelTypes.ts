@@ -1,30 +1,30 @@
 export type TaskId = string;
 
-export type Task = {
+export type TaskType = {
     title: string;
     description?: string;
     dueDate?: Date;
     id: TaskId;
 }
 
-export type Column = { 
+export type ColumnType = { 
     name: string;
     description?: string;
     tasks: TaskId[];
 }
 
-export type Board = {
+export type BoardType = {
     boardName: string;
     description?: string;
-    columns: Column[];
+    columns: ColumnType[];
     tasks: {
-        [key: string]: Task
+        [key: string]: TaskType
     }
 
 }
 
 export type AppState = {
-    boards: Board[];
+    boards: BoardType[];
     searchTerm?: string;
     currentBoard: number; // Index of the board selected for now.
 }

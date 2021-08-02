@@ -1,10 +1,11 @@
 import * as React from 'react'
 import './Column.css'
-import {  Column, Task} from "../../ModelTypes/ModelTypes";
+import {  ColumnType, TaskType} from "../../ModelTypes/ModelTypes";
+import Task from '../Task/Task';
 
 type Props = {
-    column: Column
-    columnTasks: Task[]
+    column: ColumnType
+    columnTasks: TaskType[]
 }
 
 let Column = ({ column, columnTasks }: Props) => (
@@ -21,12 +22,8 @@ let Column = ({ column, columnTasks }: Props) => (
         <ul className="Column__contents">
             {
                 columnTasks.map(
-                    (task: Task) => (
-                        <li className="Column__item card" key={task.id}>
-                            <div className="card-header">
-                                {task.title}
-                            </div>
-                        </li>
+                    (task: TaskType) => (
+                        <Task task={task} key={task.id}/>
                     )
                 )
             }

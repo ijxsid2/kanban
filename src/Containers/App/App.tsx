@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {Board as BoardType, AppState} from "../../ModelTypes/ModelTypes"
-import Board from '../../Components/Board';
+import {BoardType, AppState} from "../../ModelTypes/ModelTypes"
+import Board from '../../Components/Board/Board';
 
 
 const initialBoard: BoardType = {
