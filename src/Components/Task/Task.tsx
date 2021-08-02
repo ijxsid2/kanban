@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './Task.css'
 import {TaskType} from "../../ModelTypes/ModelTypes";
+import MutationsContext from "../../Containers/App/MutationsContext"
 
 type Props = {
     task: TaskType
@@ -8,13 +9,25 @@ type Props = {
 
 let Task = ({ task }: Props) => {
     const [isEditable, setIsEditable] = React.useState<boolean>(false)
+    const mutations = React.useContext(MutationsContext);
 
     const onDoubleClick = () => {
         setIsEditable(true)
     }
 
-    const onBlur = () => {
+    const onBlur = (e) => {
         setIsEditable(false);
+        const value = e.target.value;
+        mutations.editTask(task.id, value);
+    }
+
+    const onKeyDown = (e) => {
+        if(e.key === "Enter") {
+            setIsEditable(false);
+            const value = e.target.value;
+            mutations.editTask(task.id, value);
+        }
+
     }
     return (
         <li className="Column__item card"
@@ -22,7 +35,7 @@ let Task = ({ task }: Props) => {
             >
             {
                 isEditable ? 
-                <textarea onBlur={onBlur}>{task.title}</textarea> :
+                <textarea onBlur={onBlur} onKeyDown={onKeyDown}>{task.title}</textarea> :
                 <div className="card-header Task__title">
                     {task.title}
                 </div>

@@ -2,27 +2,48 @@ import * as React from 'react'
 import './Column.css'
 import {  ColumnType, TaskType} from "../../ModelTypes/ModelTypes";
 import Task from '../Task/Task';
+import MutationsContext from "../../Containers/App/MutationsContext";
+
 
 type Props = {
     column: ColumnType;
     columnTasks: TaskType[];
-    addTask: () => void;
+    columnIndex: number;
 }
 
-let Column = ({ column, columnTasks, addTask }: Props) => {
+let Column = ({ column, columnTasks, columnIndex }: Props) => {
+    
     const [isNameEditable, setIsNameEditable] = React.useState<boolean>(false)
+    
+    const mutations = React.useContext(MutationsContext);
+
 
     const onDoubleClick = () => {
         setIsNameEditable(true)
     }
 
-    const onBlur = () => {
+    const onBlur = (e) => {
         setIsNameEditable(false);
+        const value = e.target.value;
+        mutations.editColumnName(columnIndex, value);
     }
+
+    const onKeyDown = (e) => {
+        if(e.key === "Enter") {
+            setIsNameEditable(false);
+            const value = e.target.value;
+            mutations.editColumnName(columnIndex, value);
+        }
+    }
+
+    const onAddTask = () => {
+        mutations.addTask("Task", columnIndex);
+    }
+
     return (
         <div className="Column">
             { isNameEditable
-              ? <textarea rows={1} onBlur={onBlur}>{column.name}</textarea>
+              ? <textarea rows={1} onBlur={onBlur} onKeyDown={onKeyDown}>{column.name}</textarea>
               : <h3 className="Column__name" onDoubleClick={onDoubleClick}>
                 {column.name}
                 </h3> 
@@ -30,10 +51,11 @@ let Column = ({ column, columnTasks, addTask }: Props) => {
 
 
             <div className="Column__add-task">
-                <button className="btn" onClick={addTask}>
+                <button className="btn" onClick={onAddTask}>
                     +
                 </button>
             </div>
+
             <ul className="Column__contents">
                 {
                     columnTasks.map(

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {BoardType, AppState, TaskType} from "../../ModelTypes/ModelTypes"
 import Board from '../../Components/Board/Board';
+import MutationsContext from "./MutationsContext"
 
 
 const initialBoard: BoardType = {
@@ -61,8 +62,50 @@ let Container = () =>  {
         
     }
 
+    
+    const editTask = (taskId: string , title: string) => {
+        
+        const newState = {
+            ...boardState,
+            tasks: {
+                ...boardState.tasks,
+                [taskId]: {
+                    ...boardState.tasks[taskId],
+                    title: title
+                }
+            }
+        }
+        setBoardState(newState);
+        
+    }
+
+    const editColumnName = React.useCallback((columnIndex: number, newName: string) => {
+        const column = boardState.columns[columnIndex]
+        const newState = {
+            ...boardState,
+            columns: [
+                ...boardState.columns.slice(0, columnIndex),
+                {
+                    ...column,
+                    name: newName
+                },
+                ...boardState.columns.slice(columnIndex+1),
+            ]
+        };
+        setBoardState(newState);
+        
+    }, [boardState])
+
+
+
     return (
-        <Board currentBoard={boardState} addTask={addTask}/>
+        <MutationsContext.Provider value={{
+            addTask: addTask,
+            editTask: editTask,
+            editColumnName: editColumnName
+        }}>
+            <Board currentBoard={boardState}/>
+        </MutationsContext.Provider>
     )
 }
 
