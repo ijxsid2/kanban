@@ -5,8 +5,12 @@
 }
 .Column__name {
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
-
+.Column__name button {
+  font-size: 0.75rem;
+}
 .Column__contents {
   margin: 0;
 }

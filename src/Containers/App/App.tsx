@@ -3,6 +3,7 @@ import {BoardType, AppState, TaskType, ColumnType} from "../../ModelTypes/ModelT
 import Board from '../../Components/Board/Board';
 import MutationsContext from "./MutationsContext"
 
+const LOCAL_STORE_KEY = "BOARD_TWELLO_STATE";
 
 const initialBoard: BoardType = {
     boardName: "Tasks for Me",
@@ -10,7 +11,6 @@ const initialBoard: BoardType = {
         {name: "To Do", tasks: ["1"]},
         {name: "In Progress", tasks: []},
         {name: "Completed", tasks: []},
-        {name: "In Freeze", tasks: []},
     ],
     tasks: {
         "1": {title: "Visit grocery shop", id: "1"}
@@ -27,10 +27,33 @@ const taskIdGenerator = (currentBoard: BoardType) => {
 
 
 let Container = () =>  {
+
     const [boardState, setBoardState] = React.useState<BoardType>(initialBoard)
     const [searchTerm, setSearchTerm] = React.useState("");
 
+
+    React.useEffect(() => {
+        try {
+            const localState: BoardType = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY))
+            if (localState) {
+                setBoardState(localState);
+            }
+        }
+        catch {
+            setBoardState(initialBoard);
+        }
+    }, [])
+
+    const changeBoardState = (newState: BoardType) => {
+        localStorage.setItem(LOCAL_STORE_KEY, JSON.stringify(newState));
+        setBoardState(newState)
+    }
+
     const addTask = (title: string, columnIndex: number) => {
+
+        // title is not required as it will first create a dummy task
+        // with title "Task" and then we can edit by double clicking.
+
         const newTaskId = String(taskIdGenerator(boardState));
         
         const task: TaskType = {
@@ -58,7 +81,7 @@ let Container = () =>  {
                 [newTaskId]: task
             }
         }
-        setBoardState(newState);
+        changeBoardState(newState);
         
     }
 
@@ -75,7 +98,7 @@ let Container = () =>  {
                 }
             }
         }
-        setBoardState(newState);
+        changeBoardState(newState);
         
     }
 
@@ -92,7 +115,7 @@ let Container = () =>  {
                 ...boardState.columns.slice(columnIndex+1),
             ]
         };
-        setBoardState(newState);
+        changeBoardState(newState);
         
     }, [boardState])
 
@@ -110,7 +133,7 @@ let Container = () =>  {
         }
         const columnB: ColumnType = {
             ...boardState.columns[currentColumnIndex + (move === "LEFT" ? -1: 1)],
-            tasks: [taskId].concat(boardState.columns[currentColumnIndex + (move === "LEFT" ? -1: 1)].tasks)
+            tasks: boardState.columns[currentColumnIndex + (move === "LEFT" ? -1: 1)].tasks.concat([taskId])
         }
 
         const lowerIndex = move === "LEFT" ? currentColumnIndex - 1: currentColumnIndex;
@@ -132,19 +155,41 @@ let Container = () =>  {
             ...boardState,
             columns: newCols
         };
-        setBoardState(newState);
+        changeBoardState(newState);
         
-        
-
     }
+
+    const addColumn = () => {
+        const newState = {
+            ...boardState,
+            columns: boardState.columns.concat([{
+                name: "New Column",
+                tasks: []
+            }])
+        };
+        changeBoardState(newState); 
+    };
+
+    const deleteColumn = (columnIndex: number) => {
+        const newState = {
+            ...boardState,
+            columns: [
+                ...boardState.columns.slice(0, columnIndex),
+                ...boardState.columns.slice(columnIndex + 1),
+            ]
+        };
+        changeBoardState(newState); 
+    };
 
 
     return (
         <MutationsContext.Provider value={{
-            addTask: addTask,
-            editTask: editTask,
-            editColumnName: editColumnName,
-            moveTaskToColumn: moveTaskToColumn
+            addTask,
+            editTask,
+            editColumnName,
+            moveTaskToColumn,
+            addColumn,
+            deleteColumn,
         }}>
             <Board currentBoard={boardState}/>
         </MutationsContext.Provider>

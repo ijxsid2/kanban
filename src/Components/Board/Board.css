@@ -14,34 +14,19 @@
 .Board__columns-section {
   display: flex;
   overflow-x: auto;
+  height: calc(100% - 128px);
 }
 
-.Board__column {
-  width: 25vw;
+.Board__new-column {
+  width: 20vw;
   flex: 0 0 auto;
   padding: 0 0.75rem;
 }
-.Board__column-name {
-  font-size: 1rem;
+.Board__new-column button {
+  margin-top: 2.3rem;
+  width: 100%;
 }
 
 .Board__columns-section::-webkit-scrollbar {
   display: none;
-}
-
-.Board__column-contents {
-  margin: 0;
-}
-.Board__column-item {
-  background-color: #fff;
-  list-style: none;
-  min-height: 100px;
-  padding: 0.5rem;
-  margin: 0.75rem 0 0.5rem;
-}
-.Board__add-task button {
-  width: 100%;
-  border-style: dashed;
-  font-size: 1rem;
-  height: 2rem;
 }

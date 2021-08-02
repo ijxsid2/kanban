@@ -39,13 +39,20 @@ let Column = ({ column, columnTasks, columnIndex }: Props) => {
     const onAddTask = () => {
         mutations.addTask("Task", columnIndex);
     }
+    
+    const onDeleteColumn = () => {
+        mutations.deleteColumn(columnIndex);
+    }
 
     return (
         <div className="Column">
             { isNameEditable
               ? <textarea rows={1} onBlur={onBlur} onKeyDown={onKeyDown}>{column.name}</textarea>
               : <h3 className="Column__name" onDoubleClick={onDoubleClick}>
-                {column.name}
+                <div>{column.name}</div>
+                <button className="btn btn-error" onClick={onDeleteColumn}>
+                    <i className="icon icon-delete"/>
+                </button>
                 </h3> 
             }
 
