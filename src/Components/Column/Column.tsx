@@ -4,18 +4,19 @@ import {  ColumnType, TaskType} from "../../ModelTypes/ModelTypes";
 import Task from '../Task/Task';
 
 type Props = {
-    column: ColumnType
-    columnTasks: TaskType[]
+    column: ColumnType;
+    columnTasks: TaskType[];
+    addTask: () => void;
 }
 
-let Column = ({ column, columnTasks }: Props) => (
+let Column = ({ column, columnTasks, addTask }: Props) => (
     <div className="Column" key={column.name}>
         <h3 className="Column__name">
             {column.name}
         </h3>
 
         <div className="Column__add-task">
-            <button className="btn">
+            <button className="btn" onClick={addTask}>
                 +
             </button>
         </div>
