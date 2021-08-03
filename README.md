@@ -1,5 +1,7 @@
 # Kanban App
 
+Test Deployment: https://kanban-sigma.vercel.app/
+
 ## App functionality completed
 
 - User can add, edit or remove tasks
@@ -22,7 +24,7 @@
 - We can use the useReducer hook and it would simplify some parts of the `App.tsx` container.
 - Improve the `mutations.tsx` file with a helper library like immer to make the code much easier to read.
 - Implementing a search functionality, where we can write a term in the search box and it would highlight the tasks.
-- Implementing multi-board functionality where can switch between boards, I stared the app with multi-board functionality in mind, but I had to scrap it since the time ran out.
+- Implementing multi-board functionality where can switch between boards, I started the app with multi-board functionality in mind, but I had to scrap it since the time ran out.
 - Implementing a due functionality, where tasks near to thier due date will be highlighted.
 
 ## Instructions to Start

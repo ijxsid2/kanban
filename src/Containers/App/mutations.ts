@@ -83,8 +83,8 @@ const moveTaskToColumn = (state: BoardType, taskId: string, currentColumnIndex: 
     const numCols = state.columns.length
 
     // nothing to do if the task is already at end columns of the board
-    if (move === "LEFT" && currentColumnIndex === 0) return
-    if (move === "RIGHT" && currentColumnIndex === numCols - 1) return
+    if (move === "LEFT" && currentColumnIndex === 0) return state
+    if (move === "RIGHT" && currentColumnIndex === numCols - 1) return state
 
     const columnA: ColumnType = {
         ...state.columns[currentColumnIndex],
